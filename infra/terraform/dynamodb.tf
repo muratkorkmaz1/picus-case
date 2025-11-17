@@ -16,6 +16,23 @@ resource "aws_dynamodb_table" "picus" {
   }
 }
 
+resource "aws_dynamodb_table" "picus" {
+  name         = "picus2"
+  billing_mode = "PAY_PER_REQUEST"
+
+  hash_key = "id"
+
+  attribute {
+    name = "id"
+    type = "S"
+  }
+
+  tags = {
+    Environment = "dev"
+    Project     = "picus-case"
+    Component   = "dynamodb"
+  }
+}
 # AÇIKLAMA:
 # Bu dosya DynamoDB üzerinde "picus" isimli bir tablo oluşturur.
 # billing_mode = PAY_PER_REQUEST, tabloyu On-Demand kapasite modunda çalıştırır.
