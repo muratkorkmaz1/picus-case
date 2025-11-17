@@ -48,8 +48,12 @@ jobs:
             pytest
           else
             echo "No tests/ directory found, running basic syntax check"
-            python -m compileall src || echo "Compile check failed" && exit 1
+            if ! python -m compileall src; then
+              echo "Compile check failed"
+              exit 1
+            fi
           fi
+
 
       # 5) AWS kimlik bilgilerini ayarla
       - name: Configure AWS credentials
