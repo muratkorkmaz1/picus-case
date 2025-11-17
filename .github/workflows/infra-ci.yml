@@ -51,5 +51,6 @@ jobs:
 
       # 7) terraform plan (sadece görmek için, apply yok)
       - name: Terraform plan
-        run: terraform plan -input=false -lock=false
+        run: terraform plan -input=false -lock=false -var="acm_certificate_arn=${{ secrets.ACM_CERT_ARN }}"
+
 
