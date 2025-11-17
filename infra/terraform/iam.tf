@@ -57,8 +57,8 @@ resource "aws_iam_policy" "ecs_task_dynamodb_policy" {
     Version = "2012-10-17",
     Statement = [
       {
-        Effect   = "Allow",
-        Action   = [
+        Effect = "Allow",
+        Action = [
           "dynamodb:GetItem",
           "dynamodb:PutItem",
           "dynamodb:Scan"
@@ -76,8 +76,8 @@ resource "aws_iam_role_policy_attachment" "ecs_task_role_dynamodb_attach" {
 
 
 resource "aws_lambda_permission" "allow_alb_invoke_delete" {
-  statement_id  = "AllowExecutionFromALBDelete"
-  action        = "lambda:InvokeFunction"
+  statement_id = "AllowExecutionFromALBDelete"
+  action       = "lambda:InvokeFunction"
 
   # Serverless ile deploy ettiğin fonksiyonun ARN'i
   function_name = "arn:aws:lambda:eu-central-1:358712298152:function:picus-delete-dev-deletePicusItem"

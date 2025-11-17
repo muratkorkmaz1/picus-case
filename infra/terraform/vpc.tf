@@ -87,8 +87,8 @@ resource "aws_route_table_association" "public_assoc" {
 #################################
 
 resource "aws_security_group" "alb_sg" {
-  name        = "picus-alb-sg"
-  vpc_id      = aws_vpc.main.id
+  name   = "picus-alb-sg"
+  vpc_id = aws_vpc.main.id
 
   # HTTP (80)
   ingress {

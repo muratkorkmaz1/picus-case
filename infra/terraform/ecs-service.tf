@@ -6,8 +6,8 @@ resource "aws_ecs_service" "picus_service" {
   desired_count   = 1
 
   network_configuration {
-    subnets         = aws_subnet.private[*].id
-    security_groups = [aws_security_group.ecs_sg.id]
+    subnets          = aws_subnet.private[*].id
+    security_groups  = [aws_security_group.ecs_sg.id]
     assign_public_ip = false
   }
 
