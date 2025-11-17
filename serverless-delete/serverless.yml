@@ -1,0 +1,23 @@
+service: picus-delete
+
+frameworkVersion: "4"
+
+provider:
+  name: aws
+  runtime: python3.11
+  region: eu-central-1
+  stage: dev
+  environment:
+    TABLE_NAME: picus
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DeleteItem
+      Resource:
+        - arn:aws:dynamodb:eu-central-1:358712298152:table/picus
+
+functions:
+  deletePicusItem:
+    handler: handler.delete_picus_item
+    # Buraya EVENT koymuyoruz (http, alb vs)
+    # Lambda sadece ALB tarafından invoke edilecek.

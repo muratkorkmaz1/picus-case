@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+boto3
+python-dotenv
+
+
+# AÇIKLAMA:
+# Bu dosya Python API uygulamasının bağımlılıklarını listeler.
+# fastapi: HTTP API framework.
+# uvicorn[standard]: ASGI server, ECS içinde FastAPI'yi ayağa kaldırmak için kullanılacak.
+# boto3: AWS SDK for Python, DynamoDB ile iletişim kurmak için kullanılacak.
+# python-dotenv: Lokal geliştirmede .env dosyasından ortam değişkeni okumayı kolaylaştırır.

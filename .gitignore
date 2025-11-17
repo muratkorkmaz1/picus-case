@@ -1,0 +1,50 @@
+# Mac OS
+.DS_Store
+
+# General
+*.log
+*.tmp
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.egg-info/
+dist/
+build/
+
+# Virtualenv
+.venv/
+venv/
+env/
+
+# FastAPI / app env
+app/.env
+.env
+.env.*
+
+# Node / Serverless
+node_modules/
+.npm/
+.serverless/
+.webpack/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+terraform.tfvars
+*.auto.tfvars
+
+# Docker
+*.tar
+
+# IDE / Editor
+.idea/
+.vscode/
+*.iml
