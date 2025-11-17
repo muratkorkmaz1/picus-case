@@ -3,10 +3,9 @@ name: Picus API CI/CD
 on:
   push:
     branches: ["main"]
-    # İstersen burada sadece belirli path'lere göre tetikleyebilirsin
-    # paths:
-    #   - "app/**"
-    #   - ".github/workflows/ci-cd.yml"
+    paths:
+      - "app/**"
+      - ".github/workflows/ci-cd.yml"
 
 jobs:
   build-test-deploy:

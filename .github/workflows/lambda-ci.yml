@@ -1,0 +1,42 @@
+name: Picus Lambda CI/CD
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "serverless-delete/**"
+      - ".github/workflows/lambda-ci.yml"
+
+jobs:
+  deploy-lambda:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+
+    steps:
+      # 1) Kodu çek
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2) Node.js kur (Serverless + npm için)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # 3) AWS kimlik bilgilerini ayarla
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # 4) Serverless deploy
+      - name: Install deps and deploy with Serverless
+        working-directory: serverless-delete
+        run: |
+          npm ci
+          npx serverless deploy
+
