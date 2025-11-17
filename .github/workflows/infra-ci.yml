@@ -1,14 +1,16 @@
-name: Picus Infra CI (Terraform)
+name: Picus Infra Deploy (Terraform Apply)
 
 on:
-  push:
-    branches: ["main"]
-    paths:
-      - "infra/**"
-      - ".github/workflows/infra-ci.yml"
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Bu action Terraform APPLY çalıştırır. Onay için 'yes' yaz."
+        required: true
+        default: "no"
 
 jobs:
-  terraform-validate-plan:
+  terraform-apply:
+    if: ${{ github.event.inputs.confirm == 'yes' }}
     runs-on: ubuntu-latest
 
     env:
@@ -29,7 +31,7 @@ jobs:
         with:
           terraform_version: 1.9.5
 
-      # 3) AWS credentials (Terraform için de lazım)
+      # 3) AWS credentials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -37,20 +39,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # 4) terraform fmt check
+      # 4) Terraform fmt check
       - name: Terraform fmt
         run: terraform fmt -check -recursive
 
-      # 5) terraform init
+      # 5) Terraform init (backend = TRUE → gerçek state)
       - name: Terraform init
-        run: terraform init -backend=false
+        run: terraform init
 
-      # 6) terraform validate
+      # 6) Terraform validate
       - name: Terraform validate
         run: terraform validate
 
-      # 7) terraform plan (sadece görmek için, apply yok)
-      - name: Terraform plan
-        run: terraform plan -input=false -lock=false -var="acm_certificate_arn=${{ secrets.ACM_CERT_ARN }}"
-
-
+      # 7) Terraform apply
+      - name: Terraform apply
+        run: terraform apply -input=false -auto-approve -var="acm_certificate_arn=${{ secrets.ACM_CERT_ARN }}"
