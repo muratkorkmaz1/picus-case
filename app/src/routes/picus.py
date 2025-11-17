@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.get("/health")
 def health_check():
-    return {"status": "ok", "message": "Picus-API is alive"}
+    return {"status": "ok", "message": "Picus-API alive"}
 
 
 @router.post("/put", response_model=PutItemResponse)
