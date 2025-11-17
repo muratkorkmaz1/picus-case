@@ -16,7 +16,7 @@ resource "aws_dynamodb_table" "picus" {
   }
 }
 
-resource "aws_dynamodb_table" "picus" {
+resource "aws_dynamodb_table" "picus2" {
   name         = "picus2"
   billing_mode = "PAY_PER_REQUEST"
 
