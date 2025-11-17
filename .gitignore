@@ -24,7 +24,6 @@ env/
 # FastAPI / app env
 app/.env
 .env
-.env.*
 
 # Node / Serverless
 node_modules/
