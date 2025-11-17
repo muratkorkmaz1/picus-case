@@ -1,0 +1,91 @@
+name: Picus API CI/CD
+
+on:
+  push:
+    branches: ["main"]
+    # İstersen burada sadece belirli path'lere göre tetikleyebilirsin
+    # paths:
+    #   - "app/**"
+    #   - ".github/workflows/ci-cd.yml"
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      ECR_REPOSITORY: picus-api         # Terraform'da oluşturduğun ECR repo adı
+      ECS_CLUSTER_NAME: picus-cluster   # Terraform output: ecs_cluster_name
+      ECS_SERVICE_NAME: picus-service   # Terraform'da oluşturduğun ECS service adı
+
+    steps:
+      # 1) Kodu checkout et
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2) Python kur (FastAPI app'i test etmek için)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 3) App bağımlılıklarını kur
+      - name: Install app dependencies
+        working-directory: app
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4) Basit test aşaması
+      - name: Run app tests (or basic check)
+        working-directory: app
+        run: |
+          source .venv/bin/activate
+          if [ -d "tests" ]; then
+            pip install pytest
+            pytest
+          else
+            echo "No tests/ directory found, running basic syntax check"
+            python -m compileall src || echo "Compile check failed" && exit 1
+          fi
+
+      # 5) AWS kimlik bilgilerini ayarla
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # 6) ECR login
+      - name: Login to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # 7) Docker image build + tag + push
+      - name: Build, tag, and push Docker image to ECR
+        env:
+          IMAGE_TAG: latest
+        run: |
+          echo "Building Docker image..."
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG ./app
+
+          echo "Tagging image with ECR registry..."
+          docker tag $ECR_REPOSITORY:$IMAGE_TAG ${{ steps.ecr-login.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
+
+          echo "Pushing image to ECR..."
+          docker push ${{ steps.ecr-login.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
+
+      # 8) ECS servisini yeni image ile deploy et (zero-downtime)
+      - name: Deploy to ECS (force new deployment)
+        run: |
+          echo "Triggering new deployment on ECS service..."
+          aws ecs update-service \
+            --cluster "$ECS_CLUSTER_NAME" \
+            --service "$ECS_SERVICE_NAME" \
+            --force-new-deployment
+
+          echo "Deployment triggered. ECS will handle rolling update with no downtime."
+
