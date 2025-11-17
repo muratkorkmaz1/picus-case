@@ -51,6 +51,11 @@ jobs:
       - name: Terraform validate
         run: terraform validate
 
-      # 7) Terraform apply
+      # 7) Terraform plan (sadece önizleme, apply'dan önce ne yapacağını gör)
+      - name: Terraform plan
+        run: terraform plan -input=false -var="acm_certificate_arn=${{ secrets.ACM_CERT_ARN }}"
+
+
+      # 8) Terraform apply
       - name: Terraform apply
         run: terraform apply -input=false -auto-approve -var="acm_certificate_arn=${{ secrets.ACM_CERT_ARN }}"
