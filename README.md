@@ -1356,35 +1356,6 @@ fields @timestamp, @message
 | sort response_time desc
 ```
 
-## 🔐 Güvenlik Best Practices
-
-### IAM
-
-```
-✅ Root user sadece MFA + hesap yönetimi
-✅ Console ve CLI kullanıcıları ayrı
-✅ Least privilege principle
-✅ Role-based access (ECS, Lambda)
-✅ Programmatic keys rotation (90 gün)
-```
-
-### Network
-
-```
-✅ Private subnet'te compute
-✅ Public subnet'te sadece ALB
-✅ Security group whitelisting
-✅ NAT Gateway ile egress kontrolü
-✅ HTTPS-only (HTTP→HTTPS redirect)
-```
-
-### Secrets Management
-
-```
-⚠️ .env dosyaları .gitignore'da
-⚠️ AWS Systems Manager Parameter Store (production önerisi)
-⚠️ Secrets Manager (hassas veriler için)
-```
 
 
 
