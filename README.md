@@ -1,46 +1,46 @@
-# Picus Case – Production-Grade AWS Mimari
+# Picus Case – Production-Grade AWS Architecture
 
-FastAPI, DynamoDB, ECS Fargate, Lambda, Terraform ve GitHub Actions kullanarak geliştirilmiş, production-ready bir cloud-native uygulama.
+A production-ready cloud-native application developed using FastAPI, DynamoDB, ECS Fargate, Lambda, Terraform, and GitHub Actions.
 
 [![AWS](https://img.shields.io/badge/AWS-ECS%20%7C%20Lambda-orange)](https://aws.amazon.com)
 [![Terraform](https://img.shields.io/badge/IaC-Terraform-844FBA)](https://www.terraform.io/)
 [![FastAPI](https://img.shields.io/badge/Framework-FastAPI-009688)](https://fastapi.tiangolo.com/)
 [![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF)](https://github.com/features/actions)
 
-## 📋 İçindekiler
+## 📋 Table of Contents
 
-- [Genel Bakış](#-genel-bakış)
-- [Mimari](#-mimari)
-- [Özellikler](#-özellikler)
-- [Kurulum](#-kurulum)
-- [Kullanım](#-kullanım)
-- [Altyapı](#-altyapı)
+- [Overview](#-overview)
+- [Architecture](#-architecture)
+- [Features](#-features)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Infrastructure](#-infrastructure)
 - [CI/CD](#-cicd)
-- [API Dokümantasyonu](#-api-dokümantasyonu)
-- [Geliştirme](#-geliştirme)
+- [API Documentation](#-api-documentation)
+- [Development](#-development)
 - [Monitoring & Logging](#-monitoring--logging)
 
-## 🎯 Genel Bakış
+## 🎯 Overview
 
-Bu proje, modern DevOps ve SRE best practice'lerini uygulayan, AWS üzerinde çalışan **tamamen Infrastructure as Code (IaC)** ile yönetilen bir REST API uygulamasıdır.
+This project is a REST API application running on AWS that implements modern DevOps and SRE best practices, fully managed with **Infrastructure as Code (IaC)**.
 
-### Temel Amaç
+### Core Purpose
 
-DynamoDB tabanlı bir CRUD API'sini mikroservis mimarisiyle sunmak:
-- **ECS Fargate** ile containerized FastAPI uygulaması
-- **Lambda** ile serverless DELETE endpoint
-- **Zero-downtime deployment** destekli otomatik CI/CD
-- **Production-grade** güvenlik, networking ve monitoring
+Serving a CRUD API based on DynamoDB with microservices architecture:
+- Containerized FastAPI application with **ECS Fargate**
+- Serverless DELETE endpoint with **Lambda**
+- Automated CI/CD with **zero-downtime deployment** support
+- **Production-grade** security, networking, and monitoring
 
-### Canlı Endpoint
+### Live Endpoint
 
 ```
 https://api.picus.muratkorkmaz.dev
 ```
 
-## 🏗 Mimari
+## 🏗 Architecture
 
-### Yüksek Seviye Diyagram
+### High-Level Diagram
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -83,45 +83,45 @@ https://api.picus.muratkorkmaz.dev
          └──────────────────┘
 ```
 
-### Teknoloji Stack
+### Technology Stack
 
-| Katman | Teknoloji | Açıklama |
+| Layer | Technology | Description |
 |--------|-----------|----------|
-| **Application** | FastAPI | Yüksek performanslı Python web framework |
-| **Container** | Docker | AMD64 platform desteği ile containerization |
+| **Application** | FastAPI | High-performance Python web framework |
+| **Container** | Docker | Containerization with AMD64 platform support |
 | **Compute** | ECS Fargate | Serverless container orchestration |
 | **Serverless** | AWS Lambda | Event-driven DELETE endpoint |
 | **Database** | DynamoDB | NoSQL, fully managed, on-demand billing |
 | **Load Balancer** | Application LB | HTTPS termination, health checks |
 | **Networking** | VPC, NAT Gateway | Private/public subnet separation |
-| **DNS** | Route53 + Cloudflare | Hybrid DNS yapısı |
-| **IaC** | Terraform | Tüm infra kod olarak yönetiliyor |
-| **CI/CD** | GitHub Actions | Otomatik build, test, deploy |
-| **Monitoring** | CloudWatch Logs | Merkezi log toplama |
+| **DNS** | Route53 + Cloudflare | Hybrid DNS structure |
+| **IaC** | Terraform | All infrastructure managed as code |
+| **CI/CD** | GitHub Actions | Automated build, test, deploy |
+| **Monitoring** | CloudWatch Logs | Centralized log aggregation |
 
-## ✨ Özellikler
+## ✨ Features
 
-### 🚀 Uygulama
+### 🚀 Application
 
-- ✅ RESTful API tasarımı (FastAPI)
-- ✅ DynamoDB ile schemaless data storage
-- ✅ UUID bazlı kayıt yönetimi
+- ✅ RESTful API design (FastAPI)
+- ✅ Schemaless data storage with DynamoDB
+- ✅ UUID-based record management
 - ✅ Timestamp tracking (created_at)
 - ✅ Health check endpoint
-- ✅ Swagger UI dokümantasyonu
+- ✅ Swagger UI documentation
 
-### 🛡️ Güvenlik
+### 🛡️ Security
 
 - ✅ IAM role-based access control
-- ✅ Private subnet'te container'lar
-- ✅ NAT Gateway ile tek yönlü internet
-- ✅ MFA zorunluluğu (root user)
+- ✅ Containers in private subnets
+- ✅ Unidirectional internet via NAT Gateway
+- ✅ MFA enforcement (root user)
 - ✅ HTTPS-only communication
-- ✅ ALB üzerinde SSL/TLS termination
+- ✅ SSL/TLS termination at ALB
 
 ### 🔄 DevOps
 
-- ✅ Tam otomatik CI/CD pipeline
+- ✅ Fully automated CI/CD pipeline
 - ✅ Zero-downtime deployments
 - ✅ Multi-stage Docker builds
 - ✅ Automated testing (pytest)
@@ -136,103 +136,101 @@ https://api.picus.muratkorkmaz.dev
 - ✅ Lambda execution logs
 - ✅ Health check monitoring
 
-## 🚀 Kurulum
+## 🚀 Installation
 
-### Gereksinimler
+### Requirements
 
 ```bash
-# Yerel geliştirme için
+# For local development
 - Python 3.13+
 - Docker Desktop
 - AWS CLI v2
 - Terraform 1.5+
-- Node.js 18+ (Serverless için)
+- Node.js 18+ (for Serverless)
 
-# AWS üzerinde
+# On AWS
 - AWS Account
-- IAM kullanıcıları (admin + programmatic)
-- Domain (Route53 veya Cloudflare)
-- ACM sertifikası (HTTPS için)
+- IAM users (admin + programmatic)
+- Domain (Route53 or Cloudflare)
+- ACM certificate (for HTTPS)
 ```
 
-Bu bölüm, proje kapsamında kullanılacak AWS kaynaklarının güvenli, yönetilebilir ve production-grade bir şekilde hazırlanması için yapılan temel AWS hesap yapılandırmasını açıklamaktadır.
+This section explains the basic AWS account configuration performed to prepare AWS resources in a secure, manageable, and production-grade manner within the project scope.
 
-Bu aşama, projede ilerleyen adımlarda kullanılacak olan:
+This stage is necessary for the following tools used in subsequent steps of the project:
 - **Terraform**
 - **Serverless Framework**
 - **AWS CLI**
 - **GitHub Actions CI/CD**
 
-gibi araçların **sağlıklı çalışabilmesi** için gereklidir.
+### 1️⃣ AWS Account Preparation
 
-### 1️⃣ AWS Hesap Hazırlığı
+After creating the AWS account, the first step was to **fully secure the root account**.
 
-AWS hesabı oluşturulduktan sonra yapılan ilk işlem, **root hesabını tamamen güvene almak** olmuştur.
+#### 📌 1. Securing the Root User
 
-#### 📌 1. Root User Güvenliğinin Sağlanması
+When an AWS account is created, the root account is the **most privileged account** within AWS. Some of the root account's privileges include:
 
-AWS hesabı oluşturulduğunda, root hesabı AWS içerisindeki **en yetkili hesaptır**. Root hesabın yetkilerinden bazıları:
+- Modifying billing settings
+- Closing or recovering the account
+- High-level IAM operations
+- Changing AWS Support plan
 
-- Billing (ödeme) ayarlarını değiştirme
-- Hesabı kapatma veya kurtarma
-- IAM üst düzey işlemleri
-- AWS Support planı değiştirme
+**Root account risks:**
+- Risk increases if used for daily operations
+- Complete account control if attackers gain access
+- Difficult to recover if password is compromised
 
-**Root hesabın tehlikeleri:**
-- Günlük işlemlerde kullanılırsa risk artar
-- Saldırganlar ele geçirirse tüm hesabı kontrol ederler
-- Parola sızarsa telafisi zor
+**Therefore, we secured the root account as follows:**
 
-**Bu nedenle root hesabını şu şekilde güvenli hale getirdik:**
+##### ✅ MFA (Multi-Factor Authentication) Activated
 
-##### ✅ MFA (Multi-Factor Authentication) Aktif Edildi
+MFA added a second security layer alongside the password.
 
-MFA, parolanın yanında ikinci bir güvenlik katmanı eklendi.
+##### ✅ Removal of Root Account from Daily Use
 
-##### ✅ Root Hesabının Günlük Kullanımdan Kaldırılması
-
-**AWS Well-Architected Framework'e uygun:** Root kullanıcı, günlük operasyonel işlemlerde asla kullanılmıyor.
+**AWS Well-Architected Framework compliant:** Root user is never used for daily operational tasks.
 
 ---
 
-#### 📌 2. IAM Kullanıcıları: Yönetim ve Programmatic Ayrımı
+#### 📌 2. IAM Users: Management and Programmatic Separation
 
-Root hesap güvenli hale getirildikten sonra, **günlük çalışmalar için IAM kullanıcıları** oluşturuldu.
+After securing the root account, **IAM users for daily work** were created.
 
-Proje kapsamında iki farklı IAM kullanıcısı oluşturuldu:
+Two different IAM users were created within the project scope:
 
 ##### 🧑‍💼 `picus-admin` — Console Admin User
 
-**Amaç:**  
-AWS Console (web arayüzü) üzerinden manuel yönetim işlemleri için kullanılacak bir kullanıcı.
+**Purpose:**  
+A user for manual management operations through AWS Console (web interface).
 
-**Özellikleri:**
-- AWS Management Console erişimi var
-- Programmatic access (CLI/SDK) yok
-- AdministratorAccess policy'si var (tam yetki)
-- MFA zorunlu
+**Features:**
+- AWS Management Console access available
+- No programmatic access (CLI/SDK)
+- AdministratorAccess policy (full privileges)
+- MFA required
 
-**Artık günlük AWS Console işlemleri bu kullanıcı ile yapılıyor.**
+**Daily AWS Console operations are now performed with this user.**
 
 ##### 🤖 `picus-dev` — Programmatic Access User
 
-**Amaç:**  
-CLI, SDK, Terraform, Serverless Framework ve GitHub Actions gibi araçlardan AWS kaynaklarına erişim sağlamak.
+**Purpose:**  
+Provide access to AWS resources from tools like CLI, SDK, Terraform, Serverless Framework, and GitHub Actions.
 
-**Özellikleri:**
-- AWS Management Console erişimi **yok**
-- Programmatic access (Access Key) var
-- AdministratorAccess policy'si var (development aşamasında)
-  - ⚠️ **Production'da daraltılmalı** (least privilege principle)
-- MFA **opsiyonel** (CLI/SDK'da MFA karmaşık)
+**Features:**
+- **No** AWS Management Console access
+- Programmatic access (Access Key) available
+- AdministratorAccess policy (during development phase)
+  - ⚠️ **Should be narrowed in production** (least privilege principle)
+- MFA **optional** (complex with CLI/SDK)
 
-#### AWS CLI Yapılandırması
+#### AWS CLI Configuration
 
-Lokal makinede `picus-dev` kullanıcısı ile AWS CLI'yi yapılandırmak:
+Configure AWS CLI with the `picus-dev` user on local machine:
 
 ```bash
 aws configure --profile picus-dev
-# AWS Access Key ID: AKIA... (picus-dev'in key'i)
+# AWS Access Key ID: AKIA... (picus-dev's key)
 # AWS Secret Access Key: ******
 # Default region: eu-central-1
 # Default output format: json
@@ -241,7 +239,7 @@ aws configure --profile picus-dev
 aws sts get-caller-identity --profile picus-dev
 ```
 
-**Çıktı:**
+**Output:**
 ```json
 {
   "UserId": "AIDA...",
@@ -250,176 +248,161 @@ aws sts get-caller-identity --profile picus-dev
 }
 ```
 
-✅ CLI yapılandırması başarılı.
+✅ CLI configuration successful.
 
-**Artık tüm AWS CLI komutlarında:**
-```bash
-aws s3 ls --profile picus-dev
-terraform apply  # ~/.aws/credentials'dan otomatik okur
-```
 
----
+#### 📌 3. Region Selection
 
-#### 📌 3. Bölge (Region) Seçimi
+Since AWS is a global cloud provider, you can create your resources in different geographic regions.
 
-AWS, global bir cloud provider olduğu için kaynaklarınızı farklı coğrafi bölgelerde (region) oluşturabilirsiniz.
-
-**Proje için seçilen region:**
+**Region selected for the project:**
 
 ```
-Region: eu-central-1 (Frankfurt, Almanya)
+Region: eu-central-1 (Frankfurt, Germany)
 ```
 
-##### ❓ Neden `eu-central-1`?
+##### ❓ Why `eu-central-1`?
 
-Bölge seçimi, aşağıdaki kriterlere göre yapıldı:
+Region selection was based on the following criteria:
 
-1. **Latency (Gecikme Süresi)**
+1. **Latency**
 
-2. **Servis Olgunluğu**
+2. **Service Maturity**
    - ECS Fargate ✅
    - Lambda ✅
    - DynamoDB ✅
    - ALB ✅
    - Route53 (global) ✅
-   - Tüm modern AWS servisleri mevcut
+   - All modern AWS services available
 
-3. **Availability Zone (AZ) Sayısı**
+3. **Availability Zone (AZ) Count**
    - `eu-central-1` → **3 AZ** (eu-central-1a, 1b, 1c)
-   - High Availability için yeterli
-   - Multi-AZ deployment mümkün
+   - Sufficient for High Availability
+   - Multi-AZ deployment possible
 
-4. **Fiyat/Performans Dengesi**
+4. **Price/Performance Balance**
 
 5. **Compliance**
 
-**Sonuç:** Tüm AWS kaynakları `eu-central-1` bölgesinde oluşturuldu ve yapılandırıldı.
+**Result:** All AWS resources were created and configured in the `eu-central-1` region.
 
-### 2️⃣ Terraform ile Altyapı Kurulumu
+### 2️⃣ Infrastructure Setup with Terraform
 
-#### Terraform Nedir ve Neden Kullanıyoruz?
+#### What is Terraform and Why Are We Using It?
 
-**Terraform**, HashiCorp tarafından geliştirilen bir **Infrastructure as Code (IaC)** aracıdır. Manuel AWS Console tıklamaları yerine, altyapınızı **kod olarak** tanımlayıp versiyonlayabilirsiniz.
+**Terraform** is an **Infrastructure as Code (IaC)** tool developed by HashiCorp. Instead of manual AWS Console clicks, you can define and version your infrastructure **as code**.
 
-**Bu projedeki avantajları:**
+**Advantages in this project:**
 
-1. **Tekrarlanabilirlik**
-   - Aynı altyapıyı farklı ortamlarda (dev/staging/prod) kolayca kurabiliriz
-   - Yeni bir AWS hesabında aynı altyapıyı dakikalar içinde oluşturabiliriz
+1. **Repeatability**
+   - We can easily set up the same infrastructure in different environments (dev/staging/prod)
+   - We can create the same infrastructure in minutes in a new AWS account
 
-2. **Versiyon Kontrolü**
-   - Altyapı değişiklikleri Git'te tutulur
-   - Kim, ne zaman, neyi değiştirdi? → Git history
-   - Hatalı değişiklik → rollback mümkün
+2. **Version Control**
+   - Infrastructure changes are kept in Git
+   - Who changed what, when? → Git history
+   - Faulty change → rollback possible
 
 3. **Collaboration**
-   - Ekip üyeleri aynı Terraform kod tabanında çalışabilir
-   - Code review yapılabilir
-   - Pull request ile altyapı değişikliği önerilebilir
+   - Team members can work on the same Terraform codebase
+   - Code review possible
+   - Infrastructure changes can be proposed via pull requests
 
 4. **State Management**
-   - Terraform, AWS'deki mevcut kaynakların durumunu (state) takip eder
-   - `terraform plan` → ne değişecek gösterir
-   - `terraform apply` → sadece değişen kaynakları günceller
+   - Terraform tracks the state of existing resources in AWS
+   - `terraform plan` → shows what will change
+   - `terraform apply` → updates only changed resources
 
-
-#### Terraform Kurulum Adımları
+#### Terraform Installation Steps
 
 ```bash
-# 1. Repository klonlama
+# 1. Clone repository
 git clone <repo-url>
 cd picus-case
 
-# 2. Terraform dizinine git
+# 2. Go to Terraform directory
 cd infra/terraform
 
-# 3. Backend yapılandırması (S3 + DynamoDB lock)
-terraform init
-
-# Çıktı:
-# Initializing the backend...
-# Successfully configured the backend "s3"!
-
-# 4. Değişkenleri kontrol et
+# 3. Check variables
 cat terraform.tfvars
 
-# Örnek içerik:
+# Example content:
 # environment = "dev"
 # project_name = "picus-case"
 # domain_name = "picus.muratkorkmaz.dev"
 # certificate_arn = "arn:aws:acm:eu-central-1:358712298152:certificate/..."
 
-# 5. Plan oluştur (ne değişecek göster)
+# 4. Create plan (show what will change)
 terraform plan -out=tfplan
 
-# Çıktı örneği:
+# Example output:
 # Plan: 42 to add, 0 to change, 0 to destroy.
 
-# 6. Altyapıyı kur (dikkatli olun!)
+# 5. Build infrastructure (be careful!)
 terraform apply tfplan
 
-# Onay iste:
+# Request confirmation:
 # Do you want to perform these actions?
 #   Terraform will perform the actions described above.
 #   Only 'yes' will be accepted to approve.
 #
 # Enter a value: yes
 
-# 15-20 dakika sürer (NAT Gateway, ECS, ALB vb.)
+# Takes 15-20 minutes (NAT Gateway, ECS, ALB, etc.)
 ```
 
 **Terraform Outputs:**
 
-Apply tamamlandıktan sonra önemli değerleri kaydedin:
+After apply completes, save important values:
 
 ```bash
-# Önemli değerleri göster
+# Show important values
 terraform output
 
-# Çıktı:
+# Output:
 # alb_dns_name = "picus-alb-1234567890.eu-central-1.elb.amazonaws.com"
 # ecr_repository_url = "358712298152.dkr.ecr.eu-central-1.amazonaws.com/picus-api"
 # dynamodb_table_name = "picus"
 # ecs_cluster_name = "picus-cluster"
 # ecs_service_name = "picus-service"
 
-# Tek bir output'u almak:
+# Get a single output:
 terraform output -raw alb_dns_name
 ```
 
 #### Terraform Workflow Best Practices
 
 ```bash
-# 1. Değişiklik yapmadan önce plan çalıştır
+# 1. Run plan before making changes
 terraform plan
 
-# 2. Plan çıktısını incele (ne silinecek, ne eklenecek?)
-# Özellikle "destroy" işaretli kaynakları kontrol et
+# 2. Review plan output (what will be deleted, what will be added?)
+# Especially check resources marked for "destroy"
 
-# 3. Plan'ı dosyaya kaydet
+# 3. Save plan to file
 terraform plan -out=tfplan
 
-# 4. Apply'dan önce peer review (opsiyonel)
+# 4. Peer review before apply (optional)
 git diff
 
-# 5. Apply uygula
+# 5. Apply the plan
 terraform apply tfplan
 
-# 6. State'i kontrol et
+# 6. Check state
 terraform show
 
-# 7. Belirli bir kaynağı görmek
+# 7. View a specific resource
 terraform state show aws_dynamodb_table.picus
 ```
 
-#### Terraform Modül Yapısı
+#### Terraform Module Structure
 
 ```
 infra/terraform/
-├── main.tf              # Provider, backend, genel ayarlar
-├── variables.tf         # Input değişkenler
-├── outputs.tf           # Output değerler
-├── terraform.tfvars     # Değişken değerleri
+├── main.tf              # Provider, backend, general settings
+├── variables.tf         # Input variables
+├── outputs.tf           # Output values
+├── terraform.tfvars     # Variable values
 │
 ├── vpc.tf               # VPC, subnet, IGW, NAT, route tables
 ├── ecs-service.tf       # ECS cluster, task definition, service
@@ -431,15 +414,15 @@ infra/terraform/
 └── cloudwatch.tf        # Log groups
 ```
 
-**Her dosya tek bir mantıksal bileşeni yönetir.**
+**Each file manages a single logical component.**
 
-#### Örnek: DynamoDB Terraform Kodu
+#### Example: DynamoDB Terraform Code
 
 ```hcl
 # infra/terraform/dynamodb.tf
 resource "aws_dynamodb_table" "picus" {
   name         = var.dynamodb_table_name  # "picus"
-  billing_mode = "PAY_PER_REQUEST"        # On-demand, otomatik scale
+  billing_mode = "PAY_PER_REQUEST"        # On-demand, automatic scale
 
   hash_key = "id"  # Partition key
 
@@ -465,7 +448,7 @@ resource "aws_dynamodb_table" "picus" {
   }
 }
 
-# Output: DynamoDB table'ın ARN'ını ver
+# Output: Provide DynamoDB table ARN
 output "dynamodb_table_arn" {
   value       = aws_dynamodb_table.picus.arn
   description = "ARN of the DynamoDB table"
@@ -477,17 +460,17 @@ output "dynamodb_table_name" {
 }
 ```
 
-**Bu kod ne yapar?**
-- `picus` adında bir DynamoDB tablosu oluşturur
+**What does this code do?**
+- Creates a DynamoDB table named `picus`
 - Partition key: `id` (String)
-- Billing: On-demand (capacity yönetimine gerek yok)
-- Backup aktif
-- Encryption aktif
-- Tags ile organizasyon
+- Billing: On-demand (no capacity management needed)
+- Backup active
+- Encryption active
+- Organization with tags
 
-**IAM policy'lerde kullanım:**
+**Usage in IAM policies:**
 ```hcl
-# Bu ARN'ı ECS task role'üne vereceğiz
+# We will provide this ARN to the ECS task role
 data "aws_dynamodb_table" "picus" {
   name = "picus"
 }
@@ -503,11 +486,11 @@ statement {
   resources = [data.aws_dynamodb_table.picus.arn]
 }
 ```
-Delete yetkisi verilmedi çünkü;
-Bu mimaride DELETE /picus/{key} endpoint’i tamamen Lambda üzerinden çalışır.
-ECS Fargate üzerindeki FastAPI uygulaması hiçbir şekilde silme işlemi yapmaz.
+Delete permission not given because;
+In this architecture, the DELETE /picus/{key} endpoint runs entirely through Lambda.
+The FastAPI application on ECS Fargate never performs delete operations.
 
-### 3️⃣ Uygulama Kurulumu (Lokal)
+### 3️⃣ Application Setup (Local)
 
 ```bash
 cd ../../app
@@ -516,20 +499,20 @@ cd ../../app
 python3 -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
-# Bağımlılıklar
+# Dependencies
 pip install -r requirements.txt
 
-# Ortam değişkenleri
+# Environment variables
 cp .env.example .env
-# .env dosyasını düzenle:
+# Edit .env file:
 # AWS_REGION=eu-central-1
 # DYNAMODB_TABLE_NAME=picus
 ```
 
-### 4️⃣ Docker Image Oluşturma ve ECR'e Push
+### 4️⃣ Building Docker Image and Pushing to ECR
 
 ```bash
-# AMD64 platform için build (Apple Silicon için gerekli)
+# Build for AMD64 platform (required for Apple Silicon)
 docker buildx build --platform linux/amd64 -t picus-api:latest .
 
 # ECR login
@@ -537,7 +520,7 @@ aws ecr get-login-password --region eu-central-1 \
   | docker login --username AWS --password-stdin \
     358712298152.dkr.ecr.eu-central-1.amazonaws.com
 
-# Tag ve push
+# Tag and push
 docker tag picus-api:latest \
   358712298152.dkr.ecr.eu-central-1.amazonaws.com/picus-api:latest
 
@@ -553,31 +536,31 @@ cd ../../serverless-delete
 # Node modules
 npm install
 
-# Serverless Framework ile deploy
+# Deploy with Serverless Framework
 npx serverless deploy --stage dev --region eu-central-1
 
-# Output'tan Lambda ARN'ı kaydet
+# Save Lambda ARN from output
 ```
 
-### 6️⃣ DNS Yapılandırması
+### 6️⃣ DNS Configuration
 
-#### Cloudflare'de (muratkorkmaz.dev)
+#### In Cloudflare (muratkorkmaz.dev)
 
 ```bash
-# DNS → picus.muratkorkmaz.dev için NS kayıtları ekle:
+# Add NS records for DNS → picus.muratkorkmaz.dev:
 ns-1287.awsdns-32.org
 ns-1786.awsdns-31.co.uk
 ns-488.awsdns-61.com
 ns-566.awsdns-06.net
 ```
 
-#### Doğrulama
+#### Verification
 
 ```bash
-# NS kayıtlarını kontrol et
+# Check NS records
 dig NS picus.muratkorkmaz.dev
 
-# A kaydını kontrol et
+# Check A record
 dig A api.picus.muratkorkmaz.dev
 
 # HTTPS test
@@ -592,12 +575,12 @@ Repository → Settings → Secrets and variables → Actions:
 AWS_ACCESS_KEY_ID=AKIA...
 AWS_SECRET_ACCESS_KEY=...
 AWS_REGION=eu-central-1
-SERVERLESS_ACCESS_KEY=... (Serverless Dashboard'dan)
+SERVERLESS_ACCESS_KEY=... (from Serverless Dashboard)
 ```
 
-## 💻 Kullanım
+## 💻 Usage
 
-### API Endpoint'leri
+### API Endpoints
 
 #### Health Check
 
@@ -611,7 +594,7 @@ curl https://api.picus.muratkorkmaz.dev/picus/health
 }
 ```
 
-#### Yeni Kayıt Oluşturma (POST)
+#### Create New Record (POST)
 
 ```bash
 curl -X POST https://api.picus.muratkorkmaz.dev/picus/put \
@@ -628,7 +611,7 @@ curl -X POST https://api.picus.muratkorkmaz.dev/picus/put \
 }
 ```
 
-**DynamoDB'de saklanan veri:**
+**Data stored in DynamoDB:**
 ```json
 {
   "id": "f9ba2440-e705-4ad7-9179-93c4c5617e0c",
@@ -641,7 +624,7 @@ curl -X POST https://api.picus.muratkorkmaz.dev/picus/put \
 }
 ```
 
-#### Tek Kayıt Getirme (GET)
+#### Get Single Record (GET)
 
 ```bash
 curl https://api.picus.muratkorkmaz.dev/picus/get/f9ba2440-e705-4ad7-9179-93c4c5617e0c
@@ -658,7 +641,7 @@ curl https://api.picus.muratkorkmaz.dev/picus/get/f9ba2440-e705-4ad7-9179-93c4c5
 }
 ```
 
-#### Tüm Kayıtları Listeleme (GET)
+#### List All Records (GET)
 
 ```bash
 curl https://api.picus.muratkorkmaz.dev/picus/list
@@ -680,7 +663,7 @@ curl https://api.picus.muratkorkmaz.dev/picus/list
 }
 ```
 
-#### Kayıt Silme (DELETE) - Lambda
+#### Delete Record (DELETE) - Lambda
 
 ```bash
 curl -X DELETE https://api.picus.muratkorkmaz.dev/picus/f9ba2440-e705-4ad7-9179-93c4c5617e0c
@@ -697,33 +680,33 @@ curl -X DELETE https://api.picus.muratkorkmaz.dev/picus/f9ba2440-e705-4ad7-9179-
 https://api.picus.muratkorkmaz.dev/docs#/
 ```
 
-Interaktif API dokümantasyonu ve test arayüzü.
+Interactive API documentation and test interface.
 
-## 🏗 Altyapı
+## 🏗 Infrastructure
 
-### Dizin Yapısı
+### Directory Structure
 
 ```
 picus-case/
-├── app/                          # FastAPI uygulaması
+├── app/                          # FastAPI application
 │   ├── src/
 │   │   ├── main.py              # FastAPI entry point
-│   │   ├── config.py            # Ortam değişkenleri
+│   │   ├── config.py            # Environment variables
 │   │   ├── db.py                # DynamoDB client
-│   │   ├── models.py            # Pydantic modeller
+│   │   ├── models.py            # Pydantic models
 │   │   └── routes/
-│   │       └── picus.py         # API endpoint'leri
+│   │       └── picus.py         # API endpoints
 │   ├── requirements.txt
 │   ├── Dockerfile
 │   └── .env.example
 │
-├── serverless-delete/            # Lambda fonksiyonu
+├── serverless-delete/            # Lambda function
 │   ├── handler.py               # DELETE logic
 │   ├── serverless.yml           # Serverless config
 │   └── package.json
 │
 ├── infra/
-│   └── terraform/               # IaC tanımları
+│   └── terraform/               # IaC definitions
 │       ├── main.tf              # Provider, backend
 │       ├── vpc.tf               # VPC, subnet, NAT
 │       ├── ecs-service.tf       # ECS cluster, service
@@ -743,9 +726,9 @@ picus-case/
         └── infra-ci.yml         # Terraform CI
 ```
 
-### Terraform Modülleri
+### Terraform Modules
 
-#### VPC ve Networking
+#### VPC and Networking
 
 ```hcl
 # 2 AZ, public/private subnet separation
@@ -791,7 +774,7 @@ Private Subnets: 10.0.3.0/24, 10.0.4.0/24
 ```hcl
 resource "aws_dynamodb_table" "picus" {
   name         = "picus"
-  billing_mode = "PAY_PER_REQUEST"  # On-demand (otomatik scaling)
+  billing_mode = "PAY_PER_REQUEST"  # On-demand (automatic scaling)
   hash_key     = "id"
 
   attribute {
@@ -806,33 +789,33 @@ resource "aws_dynamodb_table" "picus" {
 }
 ```
 
-### Networking Detayları
+### Networking Details
 
-#### VPC Tasarımı ve Gerekçeleri
+#### VPC Design and Rationale
 
-**Virtual Private Cloud (VPC)**, AWS'deki tüm kaynakların içinde çalıştığı **izole sanal ağdır**. İnternet gibi, ama sadece sizin kontrolünüzde.
+**Virtual Private Cloud (VPC)** is the **isolated virtual network** in which all resources in AWS run. Like the internet, but only under your control.
 
-##### 🎯 Tasarım Kararları
+##### 🎯 Design Decisions
 
-**1. CIDR Bloğu Seçimi**
+**1. CIDR Block Selection**
 
 ```
 VPC CIDR: 10.0.0.0/16
 ```
 
-**Neden bu blok?**
-- RFC 1918 private IP aralığı (10.0.0.0/8)
-- `/16` netmask = **65,536 IP adresi** (10.0.0.1 - 10.0.255.254)
-- Yeterince büyük (gelecekte subnet eklenebilir)
-- Yeterince küçük (gereksiz yere alan tüketmez)
-- Diğer VPC'lerle peering yapılacaksa çakışma riski düşük
+**Why this block?**
+- RFC 1918 private IP range (10.0.0.0/8)
+- `/16` netmask = **65,536 IP addresses** (10.0.0.1 - 10.0.255.254)
+- Large enough (subnets can be added in the future)
+- Small enough (doesn't unnecessarily consume space)
+- Low collision risk with other VPCs if peering is done
 
-**Alternatifler ve neden seçilmedi:**
-- `192.168.0.0/16` → Ev/ofis ağlarıyla çakışma riski yüksek
-- `172.16.0.0/12` → Genellikle corporate ağlarda kullanılır
-- `10.0.0.0/24` → Çok küçük (256 IP), genişlemeye yer yok
+**Alternatives and why not chosen:**
+- `192.168.0.0/16` → High collision risk with home/office networks
+- `172.16.0.0/12` → Generally used in corporate networks
+- `10.0.0.0/24` → Too small (256 IP), no room for expansion
 
-**2. Subnet Stratejisi: Public vs Private**
+**2. Subnet Strategy: Public vs Private**
 
 ```
 Public Subnets:
@@ -844,104 +827,103 @@ Private Subnets:
   - 10.0.4.0/24 (AZ: eu-central-1b) - 256 IP
 ```
 
-**Public Subnet Özellikleri:**
-- Internet Gateway (IGW) ile doğrudan internet erişimi var
-- Public IP adresleri alabilir
-- İnternetten gelen trafiği kabul edebilir
-- **Burada çalışanlar:**
+**Public Subnet Features:**
+- Direct internet access via Internet Gateway (IGW)
+- Can receive public IP addresses
+- Can accept traffic from the internet
+- **Running here:**
   - Application Load Balancer (ALB)
   - NAT Gateway
-  - Bastion host'lar (opsiyonel)
+  - Bastion hosts (optional)
 
-**Private Subnet Özellikleri:**
-- İnternete doğrudan erişim **yok**
-- NAT Gateway üzerinden tek yönlü internet erişimi var
-- İnternetten gelen trafik **direkt erişemez**
-- **Burada çalışanlar:**
-  - ECS Fargate task'ları (container'lar)
-  - RDS database'ler (kullanılsaydı)
-  - Lambda fonksiyonları (VPC içindeyse)
-  - ElastiCache, RedShift vb.
+**Private Subnet Features:**
+- **No** direct internet access
+- Unidirectional internet access via NAT Gateway
+- Traffic from the internet **cannot directly access**
+- **Running here:**
+  - ECS Fargate tasks (containers)
+  - RDS databases (if used)
+  - Lambda functions (if in VPC)
+  - ElastiCache, RedShift, etc.
 
-**Neden 2 subnet (Multi-AZ)?**
-- **High Availability (HA)**: Bir AZ çökse, diğer AZ'den servis devam eder
-- **ALB requirement**: ALB en az 2 AZ'de subnet ister
-- **ECS service**: Task'lar farklı AZ'lere dağıtılabilir
-- **Disaster recovery**: Tek AZ'ye bağımlılık yok
+**Why 2 subnets (Multi-AZ)?**
+- **High Availability (HA)**: If one AZ fails, service continues from the other AZ
+- **ALB requirement**: ALB requires subnets in at least 2 AZs
+- **ECS service**: Tasks can be distributed across different AZs
+- **Disaster recovery**: No dependency on a single AZ
 
-**3. Neden /24 Netmask?**
+**3. Why /24 Netmask?**
 
 ```
-/24 = 256 IP adresi (251 kullanılabilir, 5 AWS reserve)
+/24 = 256 IP addresses (251 usable, 5 AWS reserved)
 ```
 
-**AWS'nin reserved IP'leri:**
+**AWS reserved IPs:**
 - `10.0.1.0` → Network address
 - `10.0.1.1` → VPC router
 - `10.0.1.2` → DNS server
 - `10.0.1.3` → Future use
-- `10.0.1.255` → Broadcast (AWS kullanmaz ama reserve eder)
+- `10.0.1.255` → Broadcast (AWS doesn't use but reserves)
 
-#### NAT Gateway: Neden Gerekli ve Nasıl Çalışıyor?
+#### NAT Gateway: Why Necessary and How It Works?
 
-##### ❓ Problem: Private Subnet'teki Container'lar İnternete Nasıl Erişecek?
+##### ❓ Problem: How Will Containers in Private Subnet Access the Internet?
 
-**Senaryo:**
-1. ECS Fargate task'ı private subnet'te başlıyor
-2. Container başlamak için **ECR'den Docker image çekmesi gerekiyor**
-3. ECR internette → Container internete erişemiyorsa image çekemez
-4. Container başlamaz ❌
+**Scenario:**
+1. ECS Fargate task starts in private subnet
+2. Container needs to **pull Docker image from ECR** to start
+3. ECR is on the internet → Container can't start if it can't access the internet
+4. Container doesn't start ❌
 
-**Ayrıca:**
-- DynamoDB endpoint'i internette (veya VPC endpoint kullanılmadıysa)
-- `pip install` / `apt-get update` internete erişim gerektirir
-- AWS API çağrıları (CloudWatch logs vb.) internete gider
+**Also:**
+- DynamoDB endpoint is on the internet (or if VPC endpoint not used)
+- `pip install` / `apt-get update` require internet access
+- AWS API calls (CloudWatch logs, etc.) go to the internet
 
-##### ✅ Çözüm: NAT Gateway
+##### ✅ Solution: NAT Gateway
 
-**NAT Gateway ne yapar?**
-- Private subnet'teki kaynakların **tek yönlü olarak** internete çıkmasını sağlar
-- İnternetten gelen trafiği **engelleyerek** güvenliği sağlar
+**What does NAT Gateway do?**
+- Enables resources in private subnet to access the internet **unidirectionally**
+- Ensures security by **blocking** traffic from the internet
 
-**Akış:**
+**Flow:**
 
 ```
 ECS Task (private subnet, 10.0.11.5)
     ↓
-    ├─ "ECR'den image çek" isteği
+    ├─ "Pull image from ECR" request
     ↓
 NAT Gateway (public subnet)
     ↓
-    ├─ NAT: Source IP 10.0.11.5 → NAT’ın public IP’sine çevrilir
+    ├─ NAT: Source IP 10.0.11.5 → Converted to NAT's public IP
     ↓
 Internet Gateway
     ↓
 Amazon ECR (Container Registry endpoint)
     ↓
-    ├─ Docker image layer'larını geri gönderir
+    ├─ Sends back Docker image layers
     ↓
-NAT Gateway (response'u tekrar 10.0.11.5’e yönlendirir)
+NAT Gateway (redirects response back to 10.0.11.5)
     ↓
-ECS Task (image başarıyla çekildi ✅)
-
+ECS Task (image successfully pulled ✅)
 ```
 
-**Önemli Noktalar:**
+**Important Points:**
 
-1. **Tek yönlü:**
+1. **Unidirectional:**
    - Private → Internet ✅
    - Internet → Private ❌
 
-2. **NAT Gateway public subnet'te olmalı:**
-   - Çünkü kendisinin de internete erişmesi gerekiyor
+2. **NAT Gateway must be in public subnet:**
+   - Because it also needs to access the internet
 
-3. **Elastic IP gerekli:**
-   - NAT Gateway'in sabit bir public IP'si olmalı
+3. **Elastic IP required:**
+   - NAT Gateway must have a static public IP
 
-##### 🔧 Terraform ile NAT Gateway Kurulumu
+##### 🔧 NAT Gateway Setup with Terraform
 
 ```hcl
-# 1. Elastic IP oluştur
+# 1. Create Elastic IP
 resource "aws_eip" "nat" {
   domain = "vpc"
 
@@ -950,7 +932,7 @@ resource "aws_eip" "nat" {
   }
 }
 
-# 2. NAT Gateway oluştur (public subnet'te)
+# 2. Create NAT Gateway (in public subnet)
 resource "aws_nat_gateway" "main" {
   allocation_id = aws_eip.nat.id
   subnet_id     = aws_subnet.public[0].id  # Public subnet
@@ -962,7 +944,7 @@ resource "aws_nat_gateway" "main" {
   depends_on = [aws_internet_gateway.main]
 }
 
-# 3. Private subnet route table'ına ekle
+# 3. Add to private subnet route table
 resource "aws_route" "private_nat_gateway" {
   route_table_id         = aws_route_table.private.id
   destination_cidr_block = "0.0.0.0/0"
@@ -970,24 +952,24 @@ resource "aws_route" "private_nat_gateway" {
 }
 ```
 
-**Route table mantığı:**
+**Route table logic:**
 
 ```
 Public Route Table:
-  - 10.0.0.0/16 → local (VPC içi)
-  - 0.0.0.0/0   → Internet Gateway (tüm internet trafiği)
+  - 10.0.0.0/16 → local (within VPC)
+  - 0.0.0.0/0   → Internet Gateway (all internet traffic)
 
 Private Route Table:
-  - 10.0.0.0/16 → local (VPC içi)
-  - 0.0.0.0/0   → NAT Gateway (internet trafiği NAT'tan çıkar)
+  - 10.0.0.0/16 → local (within VPC)
+  - 0.0.0.0/0   → NAT Gateway (internet traffic exits via NAT)
 ```
 
-##### 🐛 Yaşanan Sorun: NAT Gateway Eksikliği
+##### 🐛 Issue Encountered: Missing NAT Gateway
 
-**İlk denemede NAT Gateway yoktu:**
+**Initially NAT Gateway was missing:**
 
 ```bash
-# ECS task başlarken hata:
+# Error when ECS task starts:
 CannotPullContainerError: 
   Error response from daemon: 
   Get https://358712298152.dkr.ecr.eu-central-1.amazonaws.com/v2/: 
@@ -995,38 +977,35 @@ CannotPullContainerError:
   i/o timeout
 ```
 
-**Sebep:**
-- ECS task private subnet'te
-- ECR'ye erişmek için internet gerekli
-- NAT Gateway yok → internet erişimi yok
+**Reason:**
+- ECS task in private subnet
+- Internet needed to access ECR
+- No NAT Gateway → no internet access
 
-**Çözüm:**
-1. Terraform'a NAT Gateway eklendi
-2. Private route table 0.0.0.0/0 → NAT Gateway yönlendirildi
-3. `terraform apply` çalıştırıldı
-4. ECS service yeniden deploy edildi
-5. Container başarıyla başladı ✅
+**Solution:**
+1. Added NAT Gateway to Terraform
+2. Redirected private route table 0.0.0.0/0 → NAT Gateway
+3. Ran `terraform apply`
+4. Redeployed ECS service
+5. Container started successfully ✅
 
 #### Internet Gateway vs NAT Gateway
 
-| Özellik | Internet Gateway | NAT Gateway |
+| Feature | Internet Gateway | NAT Gateway |
 |---------|------------------|-------------|
-| **Yön** | İki yönlü (inbound+outbound) | Tek yönlü (sadece outbound) |
-| **Kullanım** | Public subnet'ler için | Private subnet'ler için |
-| **Public IP** | Kaynakların kendisinde | NAT Gateway'de (Elastic IP) |
-| **Güvenlik** | Security group ile kontrol | İnternetten erişim yok |
-| **Maliyet** | Ücretsiz | ~$32/ay + data transfer |
-| **HA** | AWS tarafından yönetilir | Tek AZ (Multi-AZ için birden fazla gerekli) |
-
-
+| **Direction** | Bidirectional (inbound+outbound) | Unidirectional (outbound only) |
+| **Usage** | For public subnets | For private subnets |
+| **Public IP** | On resources themselves | On NAT Gateway (Elastic IP) |
+| **Security** | Controlled with security groups | No internet access |
+| **Cost** | Free | ~$32/month + data transfer |
+| **HA** | Managed by AWS | Single AZ (multiple needed for Multi-AZ) |
 
 ### 🔐 Security Groups
 
-Bu mimaride iki ana security group kullanılıyor:
+Two main security groups are used in this architecture:
 
-- **ALB Security Group** → İnternete açık tek entry point  
-- **ECS Security Group** → Sadece ALB’den gelen trafiği kabul eden backend
-
+- **ALB Security Group** → The only entry point open to the internet
+- **ECS Security Group** → Backend that only accepts traffic from ALB
 
 ```hcl
 # ALB Security Group
@@ -1045,7 +1024,7 @@ Outbound:
 
 ## 🔄 CI/CD
 
-### Pipeline Yapısı
+### Pipeline Structure
 
 #### 1. Application Pipeline (ci-cd.yml)
 
@@ -1070,7 +1049,7 @@ graph LR
     F --> G[Deploy to ECS]
 ```
 
-**Kritik Adımlar:**
+**Critical Steps:**
 
 ```yaml
 # 1. Python test
@@ -1080,7 +1059,7 @@ graph LR
     pip install -r requirements.txt
     pytest tests/ || python -m compileall src
 
-# 2. Docker build (platform önemli!)
+# 2. Docker build (platform important!)
 - name: Build image
   run: |
     docker buildx build \
@@ -1133,9 +1112,9 @@ on:
 4. terraform plan -lock=false
 ```
 
-⚠️ **Önemli:** `terraform apply` CI'da çalışmıyor. Altyapı değişiklikleri manuel approve gerektirir.
+⚠️ **Important:** `terraform apply` doesn't run in CI. Infrastructure changes require manual approval.
 
-### Zero-Downtime Deployment Stratejisi
+### Zero-Downtime Deployment Strategy
 
 ```hcl
 # ecs-service.tf
@@ -1146,39 +1125,39 @@ deployment_maximum_percent         = 200
 **Deployment Flow:**
 
 ```
-1. Mevcut: 2 task running (100%)
-2. Yeni task başlat: 4 task running (200%)
-3. Health check: Yeni task'lar healthy mi?
-4. Evet → Eski task'ları durdur
-5. Sonuç: 2 yeni task running (100%)
+1. Current: 2 tasks running (100%)
+2. Start new task: 4 tasks running (200%)
+3. Health check: Are new tasks healthy?
+4. Yes → Stop old tasks
+5. Result: 2 new tasks running (100%)
 
-Downtime: 0 saniye ✅
+Downtime: 0 seconds ✅
 ```
 
-## 📚 API Dokümantasyonu
+## 📚 API Documentation
 
-### Endpoint Özeti
+### Endpoint Summary
 
-| Method | Path | Handler | Açıklama |
+| Method | Path | Handler | Description |
 |--------|------|---------|----------|
-| GET | `/picus/health` | FastAPI | Sağlık kontrolü |
-| POST | `/picus/put` | FastAPI | Yeni kayıt oluştur |
-| GET | `/picus/get/{id}` | FastAPI | Tek kayıt getir |
-| GET | `/picus/list` | FastAPI | Tüm kayıtları listele |
-| DELETE | `/picus/{id}` | Lambda | Kayıt sil |
+| GET | `/picus/health` | FastAPI | Health check |
+| POST | `/picus/put` | FastAPI | Create new record |
+| GET | `/picus/get/{id}` | FastAPI | Get single record |
+| GET | `/picus/list` | FastAPI | List all records |
+| DELETE | `/picus/{id}` | Lambda | Delete record |
 
-### Request/Response Modelleri
+### Request/Response Models
 
 #### POST /picus/put
 
 **Request:**
 ```json
 {
-  "name": "string",       // Zorunlu
-  "role": "string",       // Zorunlu
-  "team": "string",       // Opsiyonel
-  "email": "string",      // Opsiyonel
-  // ... herhangi bir JSON payload
+  "name": "string",       // Required
+  "role": "string",       // Required
+  "team": "string",       // Optional
+  "email": "string",      // Optional
+  // ... any JSON payload
 }
 ```
 
@@ -1195,7 +1174,7 @@ Downtime: 0 saniye ✅
 ```json
 {
   "id": "uuid",
-  "payload": { /* orijinal veri */ },
+  "payload": { /* original data */ },
   "created_at": "ISO-8601 timestamp"
 }
 ```
@@ -1210,20 +1189,20 @@ Downtime: 0 saniye ✅
 ### Error Handling
 
 ```python
-# FastAPI otomatik validation
-422 Unprocessable Entity - JSON schema hatası
+# FastAPI automatic validation
+422 Unprocessable Entity - JSON schema error
 
 # Custom exceptions
-404 Not Found - Kayıt bulunamadı
-500 Internal Server Error - DynamoDB hatası
+404 Not Found - Record not found
+500 Internal Server Error - DynamoDB error
 ```
 
-## 🛠 Geliştirme
+## 🛠 Development
 
-### Lokal Development
+### Local Development
 
 ```bash
-# 1. Repo'yu klonla
+# 1. Clone repo
 git clone <repo-url>
 cd picus-case/app
 
@@ -1240,7 +1219,7 @@ export AWS_ACCESS_KEY_ID=your-key
 export AWS_SECRET_ACCESS_KEY=your-secret
 export DYNAMODB_TABLE_NAME=picus
 
-# 5. Uvicorn ile çalıştır
+# 5. Run with Uvicorn
 uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
@@ -1249,7 +1228,7 @@ uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
 http://localhost:8000/docs
 ```
 
-### Docker ile Lokal Test
+### Local Testing with Docker
 
 ```bash
 # Build
@@ -1306,7 +1285,7 @@ pytest --cov=src tests/
 # Log Group: /ecs/picus-api
 # Stream: ecs/picus-api/{task-id}
 
-# AWS CLI ile görüntüleme
+# View with AWS CLI
 aws logs tail /ecs/picus-api --follow --region eu-central-1
 ```
 
@@ -1341,21 +1320,17 @@ aws logs tail /aws/lambda/picus-delete-dev-deletePicusItem --follow
 - SystemErrors
 ```
 
-### Log Query Örnekleri
+### Log Query Examples
 
 ```bash
-# 5xx hatalarını bul
+# Find 5xx errors
 fields @timestamp, @message
 | filter @message like /5[0-9]{2}/
 | sort @timestamp desc
 
-# Yavaş istekler (>1s)
+# Slow requests (>1s)
 fields @timestamp, @message
 | filter @message like /response_time/
 | filter response_time > 1000
 | sort response_time desc
 ```
-
-
-
-
